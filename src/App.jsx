@@ -49,9 +49,8 @@ function App() {
     useEffect(() => {
       if (!isAuthenticated) {
         navigate("/login");
-        return null;
       }
-    });
+    }, []);
     return (
       <div className={isDark ? "dark" : ""}>
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
