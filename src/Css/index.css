@@ -7,6 +7,17 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+
+h1{
+  font-size: 2.5rem;
+  color: #333;
+}
+
+h2{
+  font-size: 2rem;
+  color: #333;
+}
+
 @media screen and (max-width: 932px) {
   .menu-btn {
     display: initial;

@@ -1,12 +1,20 @@
 // import { data } from "autoprefixer";
-import { loaduser, setloading, addCategory, removeCategory } from "./userSlice";
+import {
+  loaduser,
+  setloading,
+  addCategory,
+  removeCategory,
+  loadblogs,
+  loadCategory,
+  removeblog,
+  setpageloading,
+} from "./userSlice";
 import ApiServices from "../Axios";
 
 export const asyncLoadUser = () => async (dispatch) => {
   try {
     dispatch(setloading(true));
     const token = localStorage.getItem("token");
-    console.log(token);
     if (!token) {
       dispatch(setloading(false));
       return;
@@ -18,7 +26,6 @@ export const asyncLoadUser = () => async (dispatch) => {
       },
     };
     const { data } = await ApiServices.Axios.get("/me", config);
-    console.log(data);
 
     dispatch(loaduser(data));
     dispatch(setloading(false));
@@ -44,9 +51,9 @@ export const asyncLoadCategory = () => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await Axios.get("/catagories", config);
+    const { data } = await ApiServices.Axios.get("/catagories", config);
 
-    dispatch(addCategory(data));
+    dispatch(loadCategory(data));
     dispatch(setloading(false));
   } catch (err) {
     console.log(err);
@@ -74,4 +81,69 @@ export const addCategoryAction = () => () => {
   try {
     dispatch(setloading(true));
   } catch (error) {}
+};
+
+// Blog CRUD
+export const asyncCreateBlog = (data) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await ApiServices.Axios.post("/blogRoutes", data, config);
+    dispatch(asyncLoadBlogs());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const asyncLoadBlogs = () => async (dispatch) => {
+  try {
+    dispatch(setpageloading(true));
+    const { data } = await ApiServices.Axios.get("/blogRoutes");
+    dispatch(loadblogs(data));
+    dispatch(setpageloading(false));
+  } catch (err) {
+    console.log(err);
+    dispatch(setpageloading(false));
+  }
+};
+
+export const asyncEditBlog = (id, data) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await ApiServices.Axios.put(`/blogRoutes/${id}`, data, config);
+    dispatch(asyncLoadBlogs());
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const asyncRemoveBlog = (id) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    dispatch(removeblog(id));
+    const { data } = await ApiServices.Axios.delete(
+      `/blogRoutes/${id}`,
+      config
+    );
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
 };

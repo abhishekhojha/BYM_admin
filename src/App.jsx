@@ -10,7 +10,11 @@ import Blogs from "./Pages/Blogs";
 import CreateBlogs from "./Pages/CreateBlogs";
 import EditBlog from "./Pages/EditBlog";
 import Category from "./Pages/Category";
-import { asyncLoadUser } from "./redux/userAction";
+import {
+  asyncLoadBlogs,
+  asyncLoadCategory,
+  asyncLoadUser,
+} from "./redux/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import ExamForm from "./Pages/ExamForm";
 import EditCategory from "./Pages/EditCategory";
@@ -37,6 +41,8 @@ function App() {
 
   useEffect(() => {
     dispatch(asyncLoadUser());
+    dispatch(asyncLoadBlogs());
+    dispatch(asyncLoadCategory());
   }, []);
   if (loading) {
     return <Loader />;
@@ -51,6 +57,7 @@ function App() {
         navigate("/login");
       }
     }, []);
+
     return (
       <div className={isDark ? "dark" : ""}>
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
@@ -128,6 +135,14 @@ function App() {
         />
         <Route
           path="/createBlog"
+          element={
+            <DefaultLayout>
+              <CreateBlogs />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/editblog/:id"
           element={
             <DefaultLayout>
               <CreateBlogs />
