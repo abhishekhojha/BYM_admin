@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 // import { FiImage } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { createReactEditorJS } from "react-editor-js";
-import { EDITOR_JS_TOOLS } from "../Components/EditorConstants";
-import { asyncCreateBlog, asyncEditBlog } from "../redux/userAction";
+import { EDITOR_JS_TOOLS } from "../../Components/EditorConstants";
+import { asyncCreateBlog, asyncEditBlog } from "../../redux/userAction";
 import { useNavigate, useParams } from "react-router-dom";
 const ReactEditorJS = createReactEditorJS();
 

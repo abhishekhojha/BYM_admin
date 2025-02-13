@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FiImage } from "react-icons/fi"; 
 import { useNavigate } from "react-router-dom";
-import ApiServices from "../Axios";
+import ApiServices from "../../Axios";
 
 const CreateCourse = () => {
   const navigate = useNavigate();

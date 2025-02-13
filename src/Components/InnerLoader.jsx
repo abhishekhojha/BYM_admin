@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../assets/Logo.png";
+import Logo from "/Logo.png";
 const InnerLoader = () => {
   return (
     <div className="flex items-center justify-center h-[calc(100vh-76px)] flex-col">

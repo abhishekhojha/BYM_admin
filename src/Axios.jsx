@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const baseURL = "https://builds-backend-4yc1.onrender.com/";
+const baseURL = "http://localhost:4000";
 const Axios = axios.create({
-    baseURL:`https://builds-backend-4yc1.onrender.com/`,
+    baseURL,
     headers:{
         "Content-Type":"application/json"
     }

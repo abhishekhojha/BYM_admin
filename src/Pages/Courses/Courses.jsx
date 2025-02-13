@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Edit from "../../public/edit.png";
-import Trash from "../../public/trash.png";
+// import Edit from "../../public/edit.png";
+// import Trash from "../../public/trash.png";
 import { Link } from "react-router-dom";
-import ApiServices from "../Axios";
+import ApiServices from "../../Axios";
 import { useDispatch, useSelector } from "react-redux";
-import { removeCategoryAction } from "../redux/userAction";
-import InnerLoader from "../Components/InnerLoader";
+import { removeCategoryAction } from "../../redux/userAction";
+import InnerLoader from "../../Components/InnerLoader";
 
 const Course = () => {
   const [loading, setLoading] = useState(true);
@@ -112,11 +112,11 @@ const Course = () => {
                       <td className="px-4 py-3 text-xs flex gap-2">
                         <Link to={`/editCourse/${course._id}`}>
                           <button>
-                            <img src={Edit} alt="edit" />
+                            <img src="edit.png" alt="edit" />
                           </button>
                         </Link>
                         <button onClick={() => handleRemove(course._id)}>
-                          <img src={Trash} alt="trash" />
+                          <img src="trash.png" alt="trash" />
                         </button>
                       </td>
                     </tr>

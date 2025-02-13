@@ -6,10 +6,10 @@ import Header from "./Components/Header";
 import Dashboard from "./Pages/Dashboard";
 import CreateAccount from "./Pages/CreateAccount";
 import Login from "./Pages/Login";
-import Blogs from "./Pages/Blogs";
-import CreateBlogs from "./Pages/CreateBlogs";
-import EditBlog from "./Pages/EditBlog";
-import Category from "./Pages/Category";
+import Blogs from "./Pages/Blogs/Blogs";
+import CreateBlogs from "./Pages/Blogs/CreateBlogs";
+import EditBlog from "./Pages/Blogs/EditBlog";
+import Category from "./Pages/Category/Category";
 import {
   asyncLoadBlogs,
   asyncLoadCategory,
@@ -17,10 +17,10 @@ import {
 } from "./redux/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import ExamForm from "./Pages/ExamForm";
-import EditCategory from "./Pages/EditCategory";
-import CreateCategory from "./Pages/CreateCategory";
-import Courses from "./Pages/Courses";
-import CreateCourse from "./Pages/CreateCourse";
+import EditCategory from "./Pages/Category/EditCategory";
+import CreateCategory from "./Pages/Category/CreateCategory";
+import Courses from "./Pages/Courses/Courses";
+import CreateCourse from "./Pages/Courses/CreateCourse";
 // CreateCourse
 import { useNavigate } from "react-router-dom";
 

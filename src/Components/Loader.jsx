@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../assets/Logo.png";
+import Logo from "/Logo.png";
 const Loader = () => {
   return (
     <div className="flex items-center justify-center h-screen flex-col">

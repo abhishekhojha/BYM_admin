@@ -1,17 +1,47 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FiImage } from "react-icons/fi"; // You'll need to install react-icons
-import { useNavigate } from "react-router-dom";
-import ApiServices from "../Axios";
-const CreateCategory = () => {
+import { useNavigate, useParams } from "react-router-dom"; // Import useParams to get the category ID from the URL
+import ApiServices from "../../Axios";
+import InnerLoader from "../../Components/InnerLoader";
+
+const editCategory = () => {
   const navigate = useNavigate();
+  const { categoryId } = useParams(); // Get the category ID from the URL
   const [category, setCategory] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     parentCategory: "",
   });
+  console.log(categoryId);
+  // Fetch category data when component mounts or categoryId changes
+  useEffect(() => {
+    ApiServices.Axios.get(`/catagories/${categoryId}`)
+      .then((response) => {
+        setFormData({
+          name: response.data.name,
+          description: response.data.description,
+          parentCategory: response.data.parentCategory || "",
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(error);
+      });
+
+    // Fetch all categories for parent category options
+    ApiServices.Axios.get("/catagories")
+      .then((response) => {
+        setCategory(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [categoryId]);
+
+  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -19,17 +49,8 @@ const CreateCategory = () => {
       [name]: value,
     }));
   };
-  useEffect(() => {
-    ApiServices.Axios.get("/catagories")
-      .then((response) => {
-        console.log(response.data);
 
-        setCategory(response.data); 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -37,31 +58,20 @@ const CreateCategory = () => {
       alert("Please fill in all fields");
       return;
     }
-    const category = {
+
+    const categoryData = {
       name: formData.name,
       description: formData.description,
       parentCategory: formData.parentCategory,
     };
+
     try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      // const { data } = await axios.post(
-      //   "https://builds-backend-wc2e.onrender.com/catagories",
-      //   category,
-      //   config
-      // );
-      const data = await ApiServices.makeRequest("catagories","POST",category)
-      setFormData({
-        name: "",
-        description: "",
-        parentCategory: "",
-      });
-      e.target.reset();
+      const data = await ApiServices.makeRequest(
+        `catagories/${categoryId}`,
+        "PUT",
+        categoryData
+      );
+      console.log(data);
       alert(data.message);
       setLoading(false);
     } catch (error) {
@@ -69,24 +79,11 @@ const CreateCategory = () => {
       setLoading(false);
     }
   };
+  if (loading) return <InnerLoader />;
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevState) => ({
-      ...prevState,
-      image: file,
-    }));
-  };
-  useEffect(() => {
-    return () => {
-      const getToken = localStorage.getItem("token");
-      if (getToken) {
-      }
-    };
-  }, []);
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Create New Category post</h2>
+      <h2 className="text-3xl font-bold mb-6">Update Category</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
@@ -104,7 +101,7 @@ const CreateCategory = () => {
             />
           </div>
 
-          {/* Slug Input */}
+          {/* Description Input */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Description
@@ -115,10 +112,12 @@ const CreateCategory = () => {
               value={formData.description}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="enter-description-here"
+              placeholder="Enter Description"
               required
             />
           </div>
+
+          {/* Parent Category Select */}
           {/* <label className="block mt-4 text-sm">
             <span className="text-gray-700 dark:text-gray-400">
               Parent Category
@@ -152,7 +151,7 @@ const CreateCategory = () => {
             type="submit"
             className="w-full bg-[#7e3af2] text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200"
           >
-            Create Category Post
+            Update Category
           </button>
         )}
       </form>
@@ -160,4 +159,4 @@ const CreateCategory = () => {
   );
 };
 
-export default CreateCategory;
+export default editCategory;

@@ -1,9 +1,9 @@
 import React from "react";
-import Edit from "../assets/edit.png";
-import Trash from "../assets/trash.png";
+import Edit from "/edit.png";
+import Trash from "/trash.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncRemoveBlog } from "../redux/userAction";
+import { asyncRemoveBlog } from "../../redux/userAction";
 
 const Blogs = () => {
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const Blogs = () => {
               </thead>
 
               <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                {blogs.map((blog) => (
+                {blogs?.map((blog) => (
                   <tr
                     key={blog?._id}
                     className="text-gray-700 dark:text-gray-400"
