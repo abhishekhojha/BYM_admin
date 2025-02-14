@@ -29,17 +29,6 @@ function App() {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
 
-  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-
-  const toggleSideMenu = () => {
-    setIsSideMenuOpen(!isSideMenuOpen);
-  };
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
-
   useEffect(() => {
     dispatch(asyncLoadUser());
     dispatch(asyncLoadBlogs());
@@ -51,6 +40,17 @@ function App() {
 
   // Layout for pages with sidebar and header
   const DefaultLayout = ({ children }) => {
+    const [isDark, setIsDark] = useState(false);
+
+    const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+    const toggleSideMenu = () => {
+      setIsSideMenuOpen(!isSideMenuOpen);
+    };
+
+    const toggleTheme = () => {
+      setIsDark(!isDark);
+    };
+
     const navigate = useNavigate();
     const isAuthenticated = localStorage.getItem("token");
     useEffect(() => {
