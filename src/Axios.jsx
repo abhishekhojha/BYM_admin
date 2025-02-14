@@ -23,6 +23,7 @@ const makeRequest = async (endpoint, method = 'GET', data = {}) => {
   };
 
   try {
+    // console.log(`Making request to ${baseURL}${endpoint}`);
     const response = await axios({
       method, 
       url: `${baseURL}${endpoint}`, 

@@ -21,6 +21,7 @@ import EditCategory from "./Pages/Category/EditCategory";
 import CreateCategory from "./Pages/Category/CreateCategory";
 import Courses from "./Pages/Courses/Courses";
 import CreateCourse from "./Pages/Courses/CreateCourse";
+import Users from "./Pages/Users/Users";
 // CreateCourse
 import { useNavigate } from "react-router-dom";
 
@@ -196,6 +197,14 @@ function App() {
           element={
             <DefaultLayout>
               <CreateCourse />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <DefaultLayout>
+              <Users />
             </DefaultLayout>
           }
         />
