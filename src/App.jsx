@@ -69,7 +69,7 @@ function App() {
               isDark={isDark}
             />
             <main className="h-full overflow-y-auto">
-              <div className="container px-6 mx-auto">{children}</div>
+              <div className="container px-2 md:px-6 mx-auto">{children}</div>
             </main>
           </div>
         </div>

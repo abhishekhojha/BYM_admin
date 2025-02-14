@@ -47,7 +47,7 @@ const Category = () => {
       {loading ? (
         ""
       ) : (
-        <div className="container grid px-6 mx-auto">
+        <div className="container grid px-2 md:px-6 mx-auto">
           <div className="flex justify-between items-center">
             <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
               Category
