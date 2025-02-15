@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 // import { FiImage } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { createReactEditorJS } from "react-editor-js";
-import { EDITOR_JS_TOOLS } from "../../Components/EditorConstants";
+// import { createReactEditorJS } from "react-editor-js";
+// import { EDITOR_JS_TOOLS } from "../../Components/EditorConstants";
 import { asyncCreateBlog, asyncEditBlog } from "../../redux/userAction";
 import { useNavigate, useParams } from "react-router-dom";
-const ReactEditorJS = createReactEditorJS();
+// const ReactEditorJS = createReactEditorJS();
 
 const CreateBlogs = () => {
   const { blogs } = useSelector((state) => state.user);
@@ -257,12 +257,12 @@ const CreateBlogs = () => {
           <div>
             <label className="block text-sm font-medium mb-2">Content</label>
             <div className="border-2 border-dashed rounded-lg py-4">
-              <ReactEditorJS
+              {/* <ReactEditorJS
                 tools={EDITOR_JS_TOOLS}
                 onInitialize={handleInitialize}
                 placeholder="Type Here..."
                 inlineToolbar
-              />
+              /> */}
             </div>
           </div>
         </div>

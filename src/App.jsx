@@ -80,7 +80,7 @@ function App() {
 
   // Layout for auth pages
   const AuthLayout = ({ children }) => (
-    <div className={isDark ? "dark" : ""}>
+    <div>
       <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col flex-1 items-center justify-center">
           {children}

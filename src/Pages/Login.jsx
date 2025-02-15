@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import axios from "axios";
+import Axios from "../Axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -25,8 +24,8 @@ function Login() {
     setLoging(true);
     setError(""); // Clear any previous errors
     try {
-      const { data } = await axios.post(
-        "https://builds-backend-4yc1.onrender.com/auth/login",
+      const { data } = await Axios.Axios.post(
+        "/auth/login",
         credentials
       );
       // console.log(data);
