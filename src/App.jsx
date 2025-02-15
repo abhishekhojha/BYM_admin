@@ -50,7 +50,7 @@ function App() {
     };
 
     const toggleTheme = () => {
-      setIsDark(!isDark);
+      setIsDark(!isDark); 
     };
 
     const navigate = useNavigate();
