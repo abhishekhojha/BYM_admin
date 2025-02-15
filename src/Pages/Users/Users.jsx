@@ -3,7 +3,7 @@ import InnerLoader from "../../Components/InnerLoader";
 import ApiServices from "../../Axios";
 
 import { Link } from "react-router-dom";
-import m from "@editorjs/embed";
+// import m from "@editorjs/embed";
 
 function Users() {
   const [loading, setLoading] = useState(true);

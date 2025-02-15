@@ -24,6 +24,8 @@ import CreateCourse from "./Pages/Courses/CreateCourse";
 import Users from "./Pages/Users/Users";
 // CreateCourse
 import { useNavigate } from "react-router-dom";
+import Exams from "./Pages/Exams/Exams";
+import CreateExam from "./Pages/Exams/CreateExam";
 
 function App() {
   const dispatch = useDispatch();
@@ -200,6 +202,24 @@ function App() {
             </DefaultLayout>
           }
         />
+
+        <Route
+          path="/exams"
+          element={
+            <DefaultLayout>
+              <Exams />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/createExam"
+          element={
+            <DefaultLayout>
+              <CreateExam />
+            </DefaultLayout>
+          }
+        />
+
         <Route
           path="/users"
           element={
