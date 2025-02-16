@@ -6,6 +6,7 @@ import Header from "./Components/Header";
 import Dashboard from "./Pages/Dashboard";
 import CreateAccount from "./Pages/CreateAccount";
 import Login from "./Pages/Login";
+import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import Blogs from "./Pages/Blogs/Blogs";
 import CreateBlogs from "./Pages/Blogs/CreateBlogs";
 import EditBlog from "./Pages/Blogs/EditBlog";
@@ -102,7 +103,14 @@ function App() {
             </AuthLayout>
           }
         />
-
+        <Route
+          path="/forgot-password"
+          element={
+            <AuthLayout>
+              <ForgotPassword />
+            </AuthLayout>
+          }
+        />
         <Route
           path="/examform"
           element={
