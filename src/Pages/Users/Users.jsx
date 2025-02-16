@@ -3,6 +3,7 @@ import InnerLoader from "../../Components/InnerLoader";
 import ApiServices from "../../Axios";
 
 import { Link } from "react-router-dom";
+import SearchForm from "../../Components/SearchForm";
 // import m from "@editorjs/embed";
 
 function Users() {
@@ -10,6 +11,7 @@ function Users() {
   const [userData, setUserData] = useState([]);
   const [model, setModel] = useState(false);
   const [modelData, setModelData] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [roleLoad, setRoleLoad] = useState(false);
   const handleRemove = async (id) => {};
   const getUsers = async (e, params = "") => {
@@ -29,7 +31,7 @@ function Users() {
       if (params == "prev") {
         if (userData.page <= 1) {
           setLoading(false);
-          return;
+          return 0;
         }
         const data = await ApiServices.makeRequest(
           `/users?page=${userData.page - 1}`,
@@ -37,10 +39,13 @@ function Users() {
         );
         setUserData(data);
         setLoading(false);
-        return;
+        return 0;
       }
       if (params == "next") {
-        if (userData.page >= userData.totalPages) return;
+        if (userData.page >= userData.totalPages) {
+          setLoading(false);
+          return 0;
+        }
         const data = await ApiServices.makeRequest(
           `/users?page=${userData.page + 1}`,
           "GET"
@@ -96,6 +101,22 @@ function Users() {
       alert(error.message);
     }
   };
+  const UserSearch = async (e) => {
+    setIsSearching(true);
+    e.preventDefault();
+    try {
+      let search = e.target["search"].value;
+      const data = await ApiServices.makeRequest(
+        `/users/search?q=${search}`,
+        "GET"
+      );
+      setUserData(data);
+      setIsSearching(false);
+    } catch (error) {
+      setIsSearching(false);
+      alert(error.message);
+    }
+  };
   if (loading) return <InnerLoader />;
   return (
     <main className="h-full pb-16 overflow-y-auto">
@@ -141,16 +162,15 @@ function Users() {
         ""
       ) : (
         <div className="container grid px-2 md:px-6 mx-auto">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between flex-wrap items-center">
             <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
               Users
             </h2>
-            {/* 
-            <Link to="/createuser">
-              <button className="bg-[#7e3af2] text-white px-4 py-2 rounded-md">
-                + Create Users
-              </button>
-            </Link> */}
+            <SearchForm
+              form={UserSearch}
+              placeholder="Enter Email....."
+              loading={isSearching}
+            />
           </div>
 
           {/* Table */}
@@ -161,8 +181,9 @@ function Users() {
                   <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th className="px-4 py-3">Name</th>
                     <th className="px-4 py-3">Date Created</th>
+                    <th className="px-4 py-3">Email</th>
+                    <th className="px-4 py-3">Email Verified</th>
                     <th className="px-4 py-3">Role</th>
-                    <th className="px-4 py-3">Action</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -183,6 +204,12 @@ function Users() {
                       <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
                         {DateCoverter(user.createdAt)}
                       </td>
+                      <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
+                        {user.email}
+                      </td>
+                      <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
+                        {user.isEmailVerified ? "Verified" : "Not Verified"}
+                      </td>
                       <td className="px-4 py-3 text-sm">
                         <button
                           className="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple capitalize"
@@ -192,7 +219,7 @@ function Users() {
                           {user.role}
                         </button>
                       </td>
-                      <td className="px-4 py-3 text-xs flex gap-2">
+                      {/* <td className="px-4 py-3 text-xs flex gap-2">
                         <Link to={"/edituser/" + user._id}>
                           <button>
                             <img src="edit.png" alt="edit" />
@@ -201,7 +228,7 @@ function Users() {
                         <button onClick={() => handleRemove(user._id)}>
                           <img src="trash.png" alt="trash" />
                         </button>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>

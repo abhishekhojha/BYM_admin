@@ -113,12 +113,13 @@ const Header = ({ toggleSideMenu, toggleTheme, isDark }) => {
               onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
               aria-label="Account"
             >
-              <img
+              {/* <img
                 className="object-cover w-8 h-8 rounded-full"
                 src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
                 alt=""
                 aria-hidden="true"
-              />
+              /> */}
+              <svg className="w-[35px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="60.User"><path d="M12 12a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm0-6a2 2 0 1 0 2 2 2 2 0 0 0-2-2zM18.9 21.166l-1.972-.332a5 5 0 1 0-9.862 0l-1.966.332a7 7 0 1 1 13.806 0z"/><path d="M12 24a12 12 0 1 1 12-12 12.013 12.013 0 0 1-12 12zm0-22a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2z"/></g></svg>
             </button>
             {isProfileMenuOpen && (
               <ul className="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700">
