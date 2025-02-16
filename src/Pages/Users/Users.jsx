@@ -13,11 +13,10 @@ function Users() {
   const [roleLoad, setRoleLoad] = useState(false);
   const handleRemove = async (id) => {};
   const getUsers = async (e, params = "") => {
-    if (e) {
+    if (e && e != "current") {
       if (e.target.getAttribute("aria-label"))
         params = e.target.getAttribute("aria-label");
     }
-    console.log(params == "prev");
     setLoading(true);
 
     try {
@@ -50,7 +49,7 @@ function Users() {
         setLoading(false);
         return;
       }
-      if (params == "current") {
+      if (e == "current") {
         const data = await ApiServices.makeRequest(
           `/users?page=${userData.page}`,
           "GET"
@@ -119,7 +118,7 @@ function Users() {
               <h2 className="text-lg">{modelData.name}</h2>
               <select
                 className="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray px-4 border border-[#e2e8f0] bg-white py-3"
-                value="student"
+                value={modelData.role}
                 onChange={(e) =>
                   setModelData({ ...modelData, role: e.target.value })
                 }
