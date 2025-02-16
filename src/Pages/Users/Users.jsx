@@ -163,8 +163,15 @@ function Users() {
       ) : (
         <div className="container grid px-2 md:px-6 mx-auto">
           <div className="flex justify-between flex-wrap items-center">
-            <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            <h2 className="my-6 text-2xl text-center flex items-center font-semibold text-gray-700 dark:text-gray-200">
               Users
+              <button
+                type="button"
+                onClick={getUsers}
+                className="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Reset
+              </button>
             </h2>
             <SearchForm
               form={UserSearch}
@@ -187,39 +194,40 @@ function Users() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                  {userData.users.map((user) => (
-                    <tr
-                      key={user._id}
-                      className="text-gray-700 dark:text-gray-400"
-                    >
-                      <td className="px-4 py-3">
-                        <div className="flex items-center text-sm">
-                          <div>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">
-                              {user.name}
-                            </p>
+                  {userData.users.length != 0 ? (
+                    userData.users.map((user) => (
+                      <tr
+                        key={user._id}
+                        className="text-gray-700 dark:text-gray-400"
+                      >
+                        <td className="px-4 py-3">
+                          <div className="flex items-center text-sm">
+                            <div>
+                              <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+                                {user.name}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
-                        {DateCoverter(user.createdAt)}
-                      </td>
-                      <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
-                        {user.email}
-                      </td>
-                      <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
-                        {user.isEmailVerified ? "Verified" : "Not Verified"}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <button
-                          className="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple capitalize"
-                          id={user._id}
-                          onClick={RoleChangeModel}
-                        >
-                          {user.role}
-                        </button>
-                      </td>
-                      {/* <td className="px-4 py-3 text-xs flex gap-2">
+                        </td>
+                        <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
+                          {DateCoverter(user.createdAt)}
+                        </td>
+                        <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
+                          {user.email}
+                        </td>
+                        <td className="px-4 py-3 text-sm max-w-xs break-words truncate">
+                          {user.isEmailVerified ? "Verified" : "Not Verified"}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          <button
+                            className="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple capitalize"
+                            id={user._id}
+                            onClick={RoleChangeModel}
+                          >
+                            {user.role}
+                          </button>
+                        </td>
+                        {/* <td className="px-4 py-3 text-xs flex gap-2">
                         <Link to={"/edituser/" + user._id}>
                           <button>
                             <img src="edit.png" alt="edit" />
@@ -229,8 +237,15 @@ function Users() {
                           <img src="trash.png" alt="trash" />
                         </button>
                       </td> */}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">
+                        No Users Found
+                      </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
