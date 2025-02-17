@@ -24,10 +24,7 @@ function Login() {
     setLoging(true);
     setError(""); // Clear any previous errors
     try {
-      const { data } = await Axios.Axios.post(
-        "/auth/login",
-        credentials
-      );
+      const { data } = await Axios.Axios.post("/auth/login", credentials);
       // console.log(data);
 
       if (data.token) {
@@ -124,7 +121,14 @@ function Login() {
                   </button>
                 )}
               </form>
-
+              <p className="mt-4">
+                <Link
+                  className="text-sm font-medium text-[#7e3af2] dark:text-purple-400 hover:underline"
+                  to="/forgot-password"
+                >
+                  Forgot your password?
+                </Link>
+              </p>
               <hr className="my-8" />
               <div className="mt-1">
                 <Link

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { notify } from "../Components/Toast";
-import axios from "axios";
+import Axios from "../Axios";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
 
   const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [otp, setOTP] = useState("");
   const [formData, setFormData] = useState({
@@ -42,17 +43,21 @@ const CreateAccount = () => {
       name: formData.name,
       role: "student",
     };
-
+    setLoading(true);
     try {
-      const { data } = await axios.post(
-        "https://builds-backend-wc2e.onrender.com/auth/send-otp",
-        user
-      );
+      const { data } = await Axios.Axios.post("/auth/send-otp", user);
+
+      // const { data } = await axios.post(
+      //   "https://builds-backend-wc2e.onrender.com/auth/send-otp",
+      //   user
+      // );
       alert(data.message);
       if (data) {
         setShowOTP(true); // Show OTP input after successful OTP send
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       alert(error?.response?.data?.message);
     }
   };
@@ -63,16 +68,23 @@ const CreateAccount = () => {
       alert("Please enter OTP");
       return;
     }
+    setLoading(true);
     try {
-      const { data } = await axios.post(
-        "https://builds-backend-wc2e.onrender.com/auth/verify-otp",
-        { email: formData.email, otp }
-      );
+      const { data } = await Axios.Axios.post("/auth/verify-otp", {
+        email: formData.email,
+        otp,
+      });
+      // const { data } = await axios.post(
+      //   "http://localhost:4000/auth/verify-otp",
+      //   { email: formData.email, otp }
+      // );
       console.log(data);
 
       alert("OTP verified successfully!");
+      setLoading(false);
       window.location.href = "/login";
     } catch (error) {
+      setLoading(false);
       console.error(error);
       alert(error.message || "OTP verification failed");
     }
@@ -169,12 +181,18 @@ const CreateAccount = () => {
                     </div>
 
                     {/* Create Account Button */}
-                    <button
-                      className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#7e3af2] border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                      onClick={clickme}
-                    >
-                      Create account
-                    </button>
+                    {!loading ? (
+                      <button
+                        className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#7e3af2] border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                        onClick={clickme}
+                      >
+                        Create account
+                      </button>
+                    ) : (
+                      <button className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#7e3af2] border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        Please wait...
+                      </button>
+                    )}
 
                     <hr className="my-8" />
 
@@ -209,12 +227,20 @@ const CreateAccount = () => {
                       />
                     </label>
 
-                    <button
-                      className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#7e3af2] border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                      onClick={handleOTPSubmit}
-                    >
-                      Verify OTP
-                    </button>
+                    {loading ? (
+                      <button
+                        className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#7e3af2] border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                      >
+                        Please wait...
+                      </button>
+                    ) : (
+                      <button
+                        className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#7e3af2] border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                        onClick={handleOTPSubmit}
+                      >
+                        Verify OTP
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

@@ -2,13 +2,13 @@ import axios from "axios";
 
 const baseURL = "http://localhost:4000";
 const Axios = axios.create({
-    baseURL,
-    headers:{
-        "Content-Type":"application/json"
-    }
-})
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-const makeRequest = async (endpoint, method = 'GET', data = {}) => {
+const makeRequest = async (endpoint, method = "GET", data = {}) => {
   const token = localStorage.getItem("token");
   if (!token) {
     console.error("Token is missing");
@@ -25,17 +25,16 @@ const makeRequest = async (endpoint, method = 'GET', data = {}) => {
   try {
     // console.log(`Making request to ${baseURL}${endpoint}`);
     const response = await axios({
-      method, 
-      url: `${baseURL}${endpoint}`, 
-      data,  
-      ...config,  
+      method,
+      url: `${baseURL}${endpoint}`,
+      data,
+      ...config,
     });
     return response.data;
   } catch (error) {
     console.error(`Error with request to ${endpoint}:`, error);
-    throw error; 
+    throw error;
   }
 };
 
-
-export default {Axios,makeRequest};
+export default { Axios, makeRequest };
