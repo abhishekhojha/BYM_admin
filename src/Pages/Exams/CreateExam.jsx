@@ -29,21 +29,21 @@ const CreateExam = () => {
 
   // Handle question input changes
   const handleQuestionChange = (index, field, value) => {
-    const updatedQuestions = [...questions];
+    const updatedQuestions = [...ques];
     updatedQuestions[index][field] = value;
-    setQuestions(updatedQuestions);
+    setQues(updatedQuestions);
   };
 
   // Handle option changes
   const handleOptionChange = (qIndex, oIndex, value) => {
-    const updatedQuestions = [...questions];
+    const updatedQuestions = [...ques];
     updatedQuestions[qIndex].options[oIndex] = value;
-    setQuestions(updatedQuestions);
+    setQues(updatedQuestions);
   };
 
   // Add new question
   const addQuestion = () => {
-    setQuestions((prevQuestions) => [
+    setQues((prevQuestions) => [
       ...prevQuestions,
       {
         questionText: "",
@@ -55,9 +55,7 @@ const CreateExam = () => {
 
   // Remove a question
   const removeQuestion = (index) => {
-    setQuestions((prevQuestions) =>
-      prevQuestions.filter((_, i) => i !== index)
-    );
+    setQues((prevQuestions) => prevQuestions.filter((_, i) => i !== index));
   };
 
   // Handle form submission
@@ -103,24 +101,6 @@ const CreateExam = () => {
     }
   };
 
-  // Handle search for participants
-  const handleSearch = async (e) => {
-    const { value } = e.target;
-    if (!value) {
-      setSearchResults([]);
-      return;
-    }
-
-    try {
-      setSearchInput(value);
-      const res = await Axios.makeRequest(`/users/search?q=${value}&limit=5`);
-      setSearchResults(res.users);
-    } catch (error) {
-      console.error(error);
-      alert(error.response?.data?.message || "An error occurred");
-    }
-  };
-
   // Add participant to exam
   const handleAddParticipant = (participant) => {
     setSearchResults([]);
@@ -138,9 +118,27 @@ const CreateExam = () => {
     }));
   };
 
+  const handleSearch = async () => {
+    try {
+      const res = await Axios.makeRequest(
+        `/users/search?q=${searchInput}&limit=5`
+      );
+      setSearchResults(res.users);
+    } catch (error) {
+      alert(error.response?.data?.message || "An error occurred");
+    }
+  };
+
   useEffect(() => {
     if (formData.participants.length === 0) setModal(false);
   }, [formData]);
+  useEffect(() => {
+    if (searchInput.trim() == "") {
+      setSearchResults([]);
+      return;
+    }
+    handleSearch();
+  }, [searchInput]);
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -221,7 +219,7 @@ const CreateExam = () => {
             type="text"
             placeholder="Enter participant email address"
             value={searchInput}
-            onChange={handleSearch}
+            onChange={(e) => setSearchInput(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {/* dropdown for showing search result of participants */}
@@ -354,7 +352,7 @@ const CreateExam = () => {
                   </h2>
                   <div className="mt-4 space-y-4">
                     {formData.participants.map((participant, index) => (
-                      <div className="flex items center justify-between p-2 border-b border-gray-300">
+                      <div key={index} className="flex items center justify-between p-2 border-b border-gray-300">
                         <span>{participant.email}</span>
                         <button
                           type="button"
