@@ -55,7 +55,7 @@ const Exams = () => {
           <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Exams
           </h2>
-          <Link to="/createExam">
+          <Link to="/create-exam">
             <button className="bg-[#7e3af2] text-white px-4 py-2 rounded-md">
               + Create Exam
             </button>
@@ -99,7 +99,7 @@ const Exams = () => {
                       <td className="px-4 py-3 text-sm">
                         {exam.participants.map((participant) => (
                           <span key={participant._id} className="block">
-                            {participant.name}
+                            {participant.email}
                           </span>
                         ))}
                       </td>
@@ -107,7 +107,7 @@ const Exams = () => {
                         {exam.questions.length}
                       </td>
                       <td className="px-4 py-3 text-xs flex gap-2">
-                        <Link to={`/editexam/${exam._id}`}>
+                        <Link to={`/edit-exam/${exam._id}`}>
                           <button>
                             <img src="edit.png" alt="edit" />
                           </button>

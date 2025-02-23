@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Axios from "../../Axios";
 import { notify } from "../../Components/Toast";
+import { useParams } from "react-router-dom";
 
-const CreateExam = () => {
-  const navigate = useNavigate();
+const EditExam = () => {
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const [ques, setQues] = useState([]);
@@ -81,9 +81,9 @@ const CreateExam = () => {
     const examData = { ...formData, questions };
 
     try {
-      const data = await Axios.makeRequest("/exam", "POST", examData);
+      const data = await Axios.makeRequest(`/exam/${id}`, "PUT", examData);
       console.log(data.message);
-      notify("Exam created successfully");
+      notify("Exam updated successfully");
       setFormData({
         title: "",
         description: "",
@@ -129,6 +129,52 @@ const CreateExam = () => {
     }
   };
 
+  const getExam = async (id) => {
+    try {
+      const res = await Axios.makeRequest(`/exam/${id}`);
+      console.log(res);
+
+      const { title, description, startTime, endTime, questions } = res;
+
+      // Format startTime and endTime to "yyyy-MM-ddThh:mm"
+      const formatDateTime = (dateString) => {
+        if (!dateString) return ""; // Handle cases where the date might be undefined
+        const date = new Date(dateString);
+        return date.toISOString().slice(0, 16); // Removes "Z" and milliseconds
+      };
+
+      const formattedStartTime = formatDateTime(startTime);
+      const formattedEndTime = formatDateTime(endTime);
+
+      const participants = res.participants.map((participant) => ({
+        email: participant.email,
+      }));
+
+      setFormData({
+        title,
+        description,
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+        participants,
+      });
+
+      setQues(
+        questions.map((question) => ({
+          questionText: question.questionText,
+          options: question.options,
+          correctAnswer: question.options.indexOf(question.correctAnswer),
+        }))
+      );
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "An error occurred");
+    }
+  };
+
+  useEffect(() => {
+    getExam(id);
+  }, [id]);
+
   useEffect(() => {
     if (formData.participants.length === 0) setModal(false);
   }, [formData]);
@@ -142,7 +188,7 @@ const CreateExam = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Create New Exam</h2>
+      <h2 className="text-3xl font-bold mb-6">Update Exam</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Title */}
@@ -202,7 +248,7 @@ const CreateExam = () => {
 
         {/* Participants */}
         <div>
-          <label className="text-sm font-medium mb-2 flex items-center justify-between cursor-pointer">
+          <label className="text-sm font-medium mb-2 flex items-center justify-between">
             <span>Add Participants</span>
             {/* a button for showing all selected students */}
             {formData.participants.length > 0 && (
@@ -227,7 +273,7 @@ const CreateExam = () => {
             {/* Participants list */}
             {searchResults.map((participant, index) => (
               <div
-                className="flex items-center justify-between p-2 border-b border-gray-300"
+                className="flex items-center justify-between p-2 border-b border-gray-300 cursor-pointer"
                 key={index}
                 onClick={() => handleAddParticipant(participant)}
               >
@@ -325,7 +371,7 @@ const CreateExam = () => {
           className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700"
           disabled={loading}
         >
-          {loading ? "Creating Exam..." : "Create Exam"}
+          {loading ? "Updating Exam..." : "Update Exam"}
         </button>
       </form>
       {modal && (
@@ -377,4 +423,4 @@ const CreateExam = () => {
   );
 };
 
-export default CreateExam;
+export default EditExam;

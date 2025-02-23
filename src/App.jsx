@@ -27,6 +27,7 @@ import Users from "./Pages/Users/Users";
 import { useNavigate } from "react-router-dom";
 import Exams from "./Pages/Exams/Exams";
 import CreateExam from "./Pages/Exams/CreateExam";
+import EditExam from "./Pages/Exams/EditExam";
 
 function App() {
   const dispatch = useDispatch();
@@ -220,10 +221,18 @@ function App() {
           }
         />
         <Route
-          path="/createExam"
+          path="/create-exam"
           element={
             <DefaultLayout>
               <CreateExam />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/edit-exam/:id"
+          element={
+            <DefaultLayout>
+              <EditExam />
             </DefaultLayout>
           }
         />
